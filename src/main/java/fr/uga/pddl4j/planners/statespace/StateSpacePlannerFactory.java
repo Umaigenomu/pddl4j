@@ -434,7 +434,8 @@ public class StateSpacePlannerFactory implements Serializable {
             final int timeout = (Integer) arguments.get(AbstractStateSpacePlanner.TIMEOUT);
             final Heuristic.Type heuristicType = (Heuristic.Type) arguments.get(AbstractStateSpacePlanner.HEURISTIC);
             final double weight = (Double) arguments.get(AbstractStateSpacePlanner.WEIGHT);
-            final boolean saveStats = (Boolean) arguments.get(AbstractStateSpacePlanner.STATISTICS);
+//            final boolean saveStats = (Boolean) arguments.get(AbstractStateSpacePlanner.STATISTICS);
+            final boolean saveStats = true;
 
             // Creates the planner
             final AbstractStateSpacePlanner planner = stateSpacePlannerFactory.getPlanner(plannerName, timeout,
@@ -544,6 +545,8 @@ public class StateSpacePlannerFactory implements Serializable {
                             memoryUsedToSearchInMBytes));
                         strb.append(String.format("              %8.2f MBytes total%n%n%n", totalMemoryInMBytes));
                     }
+                    strb.append("\n Number of nodes created: ").append(planner.getStateSpaceStrategies().get(0).getCreatedNodes());
+                    strb.append("\n Number of nodes explored: ").append(planner.getStateSpaceStrategies().get(0).getExploredNodes());
                     LOGGER.trace(strb);
                 } else if (traceLevel == 8) {
                     final StringBuilder strb = new StringBuilder();
