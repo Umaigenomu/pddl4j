@@ -84,6 +84,10 @@ public interface Heuristic extends Serializable {
          */
         AJUSTED_SUM,
         /**
+         * The type for the <code>AlwaysOne</code> heuristic.
+         */
+        ALWAYS_ONE,
+        /**
          * The type for the <code>AdjustedSum2</code> heuristic.
          */
         AJUSTED_SUM2,

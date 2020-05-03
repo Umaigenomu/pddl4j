@@ -73,6 +73,8 @@ public final class HeuristicToolKit implements Serializable {
             heuristic = new MinCost(problem);
         } else if (type.equals(Heuristic.Type.SET_LEVEL)) {
             heuristic = new SetLevel(problem);
+        } else if (type.equals(Heuristic.Type.ALWAYS_ONE)) {
+        	heuristic = new AlwaysOne(problem);
         }
         return heuristic;
     }

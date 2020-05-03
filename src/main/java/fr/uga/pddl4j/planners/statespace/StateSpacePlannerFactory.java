@@ -292,7 +292,7 @@ public class StateSpacePlannerFactory implements Serializable {
                     arguments.put(AbstractStateSpacePlanner.TIMEOUT, cpu);
                 } else if ("-u".equalsIgnoreCase(args[i]) && ((i + 1) < args.length)) {
                     final int heuristic = Integer.parseInt(args[i + 1]);
-                    if (heuristic < 0 || heuristic > 9) {
+                    if (heuristic < 0) {
                         LOGGER.trace(StateSpacePlannerFactory.printUsage());
                     }
                     if (heuristic == 0) {
@@ -322,9 +322,12 @@ public class StateSpacePlannerFactory implements Serializable {
                     } else if (heuristic == 8) {
                         arguments.put(AbstractStateSpacePlanner.HEURISTIC,
                             Heuristic.Type.SET_LEVEL);
-                    } else {
+                    } else if (heuristic == 9) {
                         arguments.put(AbstractStateSpacePlanner.HEURISTIC,
                             Heuristic.Type.MIN_COST);
+                    } else if (heuristic == 10) {
+                    	arguments.put(AbstractStateSpacePlanner.HEURISTIC,
+                            Heuristic.Type.ALWAYS_ONE);
                     }
                 } else if ("-w".equalsIgnoreCase(args[i]) && ((i + 1) < args.length)) {
                     final double weight = Double.parseDouble(args[i + 1]);
@@ -375,7 +378,7 @@ public class StateSpacePlannerFactory implements Serializable {
      * -f <i>str</i>   fact file name
      * -w <i>num</i>   the weight used in the a star search (preset: 1)
      * -t <i>num</i>   specifies the maximum CPU-time in seconds (preset: 300)
-     * -u <i>num</i>   specifies the state based planner to use (preset: 0)
+     * -p <i>num</i>   specifies the state based planner to use (preset: 0)
      *      0      HSP planner
      *      1      FF planner
      *      2      FF Anytime planner
@@ -390,6 +393,7 @@ public class StateSpacePlannerFactory implements Serializable {
      *      7      max heuristic
      *      8      set-level heuristic
      *      9      min cost heuristic
+     *      10     h(s) = 1 heuristic
      * -i <i>num</i>   run-time information level (preset: 1)
      *      0      nothing
      *      1      info on action number, search and search
@@ -434,8 +438,7 @@ public class StateSpacePlannerFactory implements Serializable {
             final int timeout = (Integer) arguments.get(AbstractStateSpacePlanner.TIMEOUT);
             final Heuristic.Type heuristicType = (Heuristic.Type) arguments.get(AbstractStateSpacePlanner.HEURISTIC);
             final double weight = (Double) arguments.get(AbstractStateSpacePlanner.WEIGHT);
-//            final boolean saveStats = (Boolean) arguments.get(AbstractStateSpacePlanner.STATISTICS);
-            final boolean saveStats = true;
+            final boolean saveStats = (Boolean) arguments.get(AbstractStateSpacePlanner.STATISTICS);
 
             // Creates the planner
             final AbstractStateSpacePlanner planner = stateSpacePlannerFactory.getPlanner(plannerName, timeout,
@@ -545,8 +548,9 @@ public class StateSpacePlannerFactory implements Serializable {
                             memoryUsedToSearchInMBytes));
                         strb.append(String.format("              %8.2f MBytes total%n%n%n", totalMemoryInMBytes));
                     }
-                    strb.append("\n Number of nodes created: ").append(planner.getStateSpaceStrategies().get(0).getCreatedNodes());
-                    strb.append("\n Number of nodes explored: ").append(planner.getStateSpaceStrategies().get(0).getExploredNodes());
+                    strb.append("\nNumber of nodes created: ").append(planner.getStateSpaceStrategies().get(0).getCreatedNodes());
+                    strb.append("\nNumber of nodes explored: ").append(planner.getStateSpaceStrategies().get(0).getExploredNodes());
+
                     LOGGER.trace(strb);
                 } else if (traceLevel == 8) {
                     final StringBuilder strb = new StringBuilder();
