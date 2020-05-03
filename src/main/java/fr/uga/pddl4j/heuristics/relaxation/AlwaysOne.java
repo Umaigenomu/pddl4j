@@ -9,7 +9,7 @@ public class AlwaysOne extends AbstractHeuristic {
 
 	protected AlwaysOne(CodedProblem problem) {
 		super(problem);
-		super.setAdmissible(false);
+		super.setAdmissible(true);
 		// TODO Auto-generated constructor stub
 	}
 
