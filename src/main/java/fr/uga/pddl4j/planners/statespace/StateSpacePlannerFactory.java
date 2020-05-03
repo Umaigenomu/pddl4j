@@ -509,9 +509,9 @@ public class StateSpacePlannerFactory implements Serializable {
                 double totalMemoryInMBytes = 0.0;
 
                 if (saveStats) {
-                    timeToParseInSeconds = Statistics.millisecondToSecond(planner.getStatistics().getTimeToParse());
-                    timeToEncodeInSeconds = Statistics.millisecondToSecond(planner.getStatistics().getTimeToEncode());
-                    timeToSearchInSeconds = Statistics.millisecondToSecond(planner.getStatistics().getTimeToSearch());
+                    timeToParseInSeconds = planner.getStatistics().getTimeToParse();
+                    timeToEncodeInSeconds =planner.getStatistics().getTimeToEncode();
+                    timeToSearchInSeconds =planner.getStatistics().getTimeToSearch();
                     totalTimeInSeconds = timeToParseInSeconds + timeToEncodeInSeconds + timeToSearchInSeconds;
 
                     memoryUsedToSearchInMBytes = Statistics.byteToMByte(planner.getStatistics()
@@ -537,10 +537,10 @@ public class StateSpacePlannerFactory implements Serializable {
                         strb.append(String.format("%nno plan found%n%n"));
                     }
                     if (saveStats) {
-                        strb.append(String.format("%ntime spent:   %8.2f seconds parsing %n", timeToParseInSeconds));
-                        strb.append(String.format("              %8.2f seconds encoding %n", timeToEncodeInSeconds));
-                        strb.append(String.format("              %8.2f seconds searching%n", timeToSearchInSeconds));
-                        strb.append(String.format("              %8.2f seconds total time%n", totalTimeInSeconds));
+                        strb.append(String.format("%ntime spent:   %8.2f milliseconds parsing %n", timeToParseInSeconds));
+                        strb.append(String.format("              %8.2f milliseconds encoding %n", timeToEncodeInSeconds));
+                        strb.append(String.format("              %8.2f milliseconds searching%n", timeToSearchInSeconds));
+                        strb.append(String.format("              %8.2f milliseconds total time%n", totalTimeInSeconds));
 
                         strb.append(String.format("%nmemory used:  %8.2f MBytes for problem representation%n",
                             memoryForProblemInMBytes));
